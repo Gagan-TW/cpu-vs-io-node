@@ -1,0 +1,3 @@
+   This is a sample file for my CPU vs I/O laboratory.
+   Node.js will read this file in Experiment 1.
+   Reading a file is a waiting job, not a thinking job.
