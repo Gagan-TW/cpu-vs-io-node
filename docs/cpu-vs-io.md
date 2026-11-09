@@ -61,5 +61,20 @@ When an application is slow, the first step is to find out whether it is busy co
 
 In both cases, measure before changing anything. Measurements show where the time is really going, and confirm whether a fix actually helped.
 
-
 ## Diagram: waiting vs computing
+The diagram below compares what the main thread does during asynchronous I/O and during a long synchronous calculation.
+
+```mermaid
+flowchart LR
+  subgraph IO["I/O-bound: reading a file"]
+    A1["Main thread starts readFile()"] --> A2["File is read outside the main thread"]
+    A1 --> A3["Main thread is free to run other work"]
+    A2 --> A4["File is ready: code after await continues"]
+    A3 --> A4
+  end
+
+  subgraph CPU["CPU-bound: long calculation"]
+    B1["Main thread starts the calculation"] --> B2["Main thread is busy until the calculation ends"]
+    B2 --> B3["Waiting timers and callbacks run late"]
+  end
+```
